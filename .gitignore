@@ -52,7 +52,6 @@ Thumbs.db
 *.ipr
 *.iws
 
-# Temporary files
 *.tmp
 *.bak
 *.old
