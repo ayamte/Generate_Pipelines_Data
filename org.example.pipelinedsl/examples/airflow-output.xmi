@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ASCII"?>
+<airflowpipeline:DAG xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:airflowpipeline="http://www.example.org/airflowpipeline" dagId="OrdersPipeline" description="Pipeline de test" scheduleInterval="daily" startDate="2024-01-01">
+  <operators taskId="OrdersPipeline_extract" description="Extract data from source" retry="3" timeout="300" pythonCallable="extract_postgres" opcode="extract" parameters="{&quot;table&quot;: &quot;orders&quot;, &quot;database&quot;: &quot;mydb&quot;}" connection="//@connections.0"/>
+  <operators taskId="OrdersPipeline_transform" description="Transform data" retry="3" timeout="600" pythonCallable="transform_clean" opcode="transform_clean" parameters="{&quot;remove_nulls&quot;: true, &quot;trim&quot;: true, &quot;deduplicate&quot;: false}"/>
+  <operators taskId="OrdersPipeline_load" description="Load data to destination" retry="3" timeout="600" pythonCallable="load_warehouse" opcode="load" parameters="{&quot;table&quot;: &quot;orders_clean&quot;, &quot;database&quot;: &quot;analytics&quot;}" connection="//@connections.1"/>
+  <connections connId="postgres_localhost" connType="postgres" host="localhost" port="5432" login="user" password="pass" schema="mydb"/>
+  <connections connId="warehouse_warehouse" connType="postgres" host="warehouse" port="5432" login="user" password="pass" schema="analytics"/>
+  <dependencies upstreamTaskId="OrdersPipeline_extract" downstreamTaskId="OrdersPipeline_transform"/>
+  <dependencies upstreamTaskId="OrdersPipeline_transform" downstreamTaskId="OrdersPipeline_load"/>
+</airflowpipeline:DAG>

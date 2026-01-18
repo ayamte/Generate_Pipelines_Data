@@ -1,0 +1,113 @@
+-- @path PipelineDef=/org.example.pipelinedefinition/model/PipelineDefinition.ecore
+-- @path Airflow=/org.example.airflowpipeline/model/AirflowPipeline.ecore
+module Pipeline2Airflow;
+create OUT : Airflow from IN : PipelineDef;
+-- Transformation principale : PipelineDefinition → AirflowModel
+rule PipelineDefinition2AirflowModel {
+    from
+        pd : PipelineDef!PipelineDefinition
+    to
+        am : Airflow!AirflowModel (
+            dags <- pd.pipelines
+        )
+}
+-- Transformation : Pipeline → DAG
+rule Pipeline2DAG {
+    from
+        p : PipelineDef!Pipeline
+    to
+        dag : Airflow!DAG (
+            name <- p.name,
+            description <- p.description,
+            schedule <- p.schedule,
+            tasks <- Sequence{sourceTask, cleanTask, sinkTask}->flatten()
+        ),
+        
+        -- Créer la tâche source
+        sourceTask : Airflow!Task (
+            taskId <- p.name + '_source',
+            operator <- p.source.toOperator()
+        ),
+        
+        -- Créer les tâches de transformation
+        cleanTask : Airflow!Task (
+            taskId <- p.name + '_transform',
+            operator <- if p.transformations->notEmpty() then
+                            p.transformations->first().toOperator()
+                        else
+                            OclUndefined
+                        endif
+        ),
+        
+        -- Créer la tâche sink
+        sinkTask : Airflow!Task (
+            taskId <- p.name + '_sink',
+            operator <- p.sink.toOperator(),
+            dependencies <- Sequence{sourceTask, cleanTask}
+        )
+}
+-- Helper : PostgreSQLSource → PostgresOperator
+rule PostgreSQLSource2Operator {
+    from
+        s : PipelineDef!PostgreSQLSource
+    to
+        op : Airflow!PostgresOperator (
+            postgresConnId <- s.host + '_' + s.database,
+            sql <- 'SELECT * FROM ' + s.table,
+            parameters <- s.toConnectionParams()
+        )
+}
+-- Helper : MongoDBSource → MongoOperator
+rule MongoDBSource2Operator {
+    from
+        s : PipelineDef!MongoDBSource
+    to
+        op : Airflow!MongoOperator (
+            mongoConnId <- s.host + '_' + s.database,
+            collection <- s.collection,
+            parameters <- s.toConnectionParams()
+        )
+}
+-- Helper : RestAPISource → HttpOperator
+rule RestAPISource2Operator {
+    from
+        s : PipelineDef!RestAPISource
+    to
+        op : Airflow!HttpOperator (
+            httpConnId <- 'http_default',
+            endpoint <- s.url,
+            method <- s.method,
+            headers <- s.headers
+        )
+}
+-- Helper : CleanTransform → PythonOperator
+rule CleanTransform2Operator {
+    from
+        t : PipelineDef!CleanTransform
+    to
+        op : Airflow!PythonOperator (
+            pythonCallable <- 'clean_data',
+            opKwargs <- t.toCleanParams()
+        )
+}
+-- Helper : DataWarehouseSink → PostgresOperator
+rule DataWarehouseSink2Operator {
+    from
+        s : PipelineDef!DataWarehouseSink
+    to
+        op : Airflow!PostgresOperator (
+            postgresConnId <- s.host + '_' + s.database,
+            sql <- 'INSERT INTO ' + s.table,
+            parameters <- s.toConnectionParams()
+        )
+}
+-- Helper : CSVSink → PythonOperator
+rule CSVSink2Operator {
+    from
+        s : PipelineDef!CSVSink
+    to
+        op : Airflow!PythonOperator (
+            pythonCallable <- 'write_csv',
+            opKwargs <- s.toCSVParams()
+        )
+}

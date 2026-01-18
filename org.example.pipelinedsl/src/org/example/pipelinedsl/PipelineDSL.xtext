@@ -1,0 +1,102 @@
+grammar org.example.pipelinedsl.PipelineDSL with org.eclipse.xtext.common.Terminals
+
+generate pipelineDSL "http://www.example.org/pipelinedsl/PipelineDSL"
+
+PipelineDefinition:
+	pipelines+=Pipeline*;
+
+Pipeline:
+	'pipeline' name=ID '{'
+		('description' description=STRING)?
+		('schedule' schedule=STRING)?
+		'source' source=DataSource
+		('transformations' '{' transformations+=Transformation* '}')?
+		'sink' sink=DataSink
+	'}';
+
+DataSource:
+	PostgreSQLSource | MongoDBSource | RestAPISource;
+
+PostgreSQLSource:
+	'PostgreSQLSource' '{'
+		'host' host=STRING
+		'port' port=INT
+		'database' database=STRING
+		'table' table=STRING
+		'username' username=STRING
+		'password' password=STRING
+	'}';
+
+MongoDBSource:
+	'MongoDBSource' '{'
+		'host' host=STRING
+		'port' port=INT
+		'database' database=STRING
+		'collection' collection=STRING
+		'username' username=STRING
+		'password' password=STRING
+	'}';
+
+RestAPISource:
+	'RestAPISource' '{'
+		'url' url=STRING
+		'method' method=STRING
+		('apiKey' apiKey=STRING)?
+		('headers' headers=STRING)?
+	'}';
+
+Transformation:
+	CleanTransform | FilterTransform | AggregateTransform;
+
+CleanTransform:
+	'CleanTransform' '{'
+		('removeNulls' removeNulls=BOOLEAN)?
+		('trim' trim=BOOLEAN)?
+		('deduplicate' deduplicate=BOOLEAN)?
+		('description' description=STRING)?
+	'}';
+
+FilterTransform:
+	'FilterTransform' '{'
+		'condition' condition=STRING
+		('description' description=STRING)?
+	'}';
+
+AggregateTransform:
+	'AggregateTransform' '{'
+		('groupBy' groupBy=STRING)?
+		('aggregation' aggregation=STRING)?
+		('description' description=STRING)?
+	'}';
+
+DataSink:
+	DataWarehouseSink | CSVSink | ElasticsearchSink;
+
+DataWarehouseSink:
+	'DataWarehouseSink' '{'
+		'host' host=STRING
+		'port' port=INT
+		'database' database=STRING
+		'table' table=STRING
+		'username' username=STRING
+		'password' password=STRING
+	'}';
+
+CSVSink:
+	'CSVSink' '{'
+		'filePath' filePath=STRING
+		('separator' separator=STRING)?
+		('includeHeader' includeHeader=BOOLEAN)?
+	'}';
+
+ElasticsearchSink:
+	'ElasticsearchSink' '{'
+		'host' host=STRING
+		'port' port=INT
+		'index' index=STRING
+		('username' username=STRING)?
+		('password' password=STRING)?
+	'}';
+
+terminal BOOLEAN:
+	'true' | 'false';

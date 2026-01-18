@@ -1,0 +1,24 @@
+[comment encoding = UTF-8 /]
+[module generateConnections('http://www.example.org/airflowpipeline')]
+[template public generateConnectionsFile(dag : DAG)]
+[file ('connections.py', false, 'UTF-8')]
+from airflow.models import Connection
+from airflow import settings
+# Airflow Connections for [dag.dagId/]
+[for (conn : Connection | dag.connections)]
+[generateConnection(conn)/]
+[/for]
+[/file]
+[/template]
+[template public generateConnection(conn : Connection)]
+# Connection: [conn.connId/]
+[conn.connId/] = Connection(
+    conn_id='[conn.connId/]',
+    conn_type='[conn.connType/]',
+    host='[conn.host/]',
+    port=[conn.port/],
+    login='[conn.login/]',
+    password='[conn.password/]',
+    schema='[conn.schema/]'
+)
+[/template]

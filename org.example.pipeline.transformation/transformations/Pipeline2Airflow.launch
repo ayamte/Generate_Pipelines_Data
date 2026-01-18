@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.m2m.atl.adt.launching.atlTransformation">
+    <stringAttribute key="ATL File Name" value="/org.example.pipeline.transformation/transformations/Pipeline2Airflow.atl"/>
+    <stringAttribute key="ATL VM" value="EMF-specific VM"/>
+    <stringAttribute key="ATL_COMPILER" value="atl2006"/>
+    <booleanAttribute key="IS_REFINING" value="false"/>
+    <mapAttribute key="Input">
+        <mapEntry key="IN" value="PipelineDef"/>
+    </mapAttribute>
+    <mapAttribute key="Libs"/>
+    <mapAttribute key="Model Handler">
+        <mapEntry key="Airflow" value="EMF"/>
+        <mapEntry key="PipelineDef" value="EMF"/>
+    </mapAttribute>
+    <mapAttribute key="ModelType">
+        <mapEntry key="Airflow" value="METAMODELOUTPUT"/>
+        <mapEntry key="IN" value="MODELINPUT"/>
+        <mapEntry key="OUT" value="MODELOUTPUT"/>
+        <mapEntry key="PipelineDef" value="METAMODELINPUT"/>
+    </mapAttribute>
+    <mapAttribute key="Options">
+        <mapEntry key="OPTION_CLEAR" value="false"/>
+        <mapEntry key="OPTION_CONTENT_TYPE" value="false"/>
+        <mapEntry key="OPTION_DERIVED" value="true"/>
+        <mapEntry key="allowInterModelReferences" value="false"/>
+        <mapEntry key="printExecutionTime" value="false"/>
+        <mapEntry key="step" value="false"/>
+        <mapEntry key="supportUML2Stereotypes" value="false"/>
+    </mapAttribute>
+    <listAttribute key="OrderedInput">
+        <listEntry value="IN"/>
+    </listAttribute>
+    <listAttribute key="OrderedOutput">
+        <listEntry value="OUT"/>
+    </listAttribute>
+    <mapAttribute key="Output">
+        <mapEntry key="OUT" value="Airflow"/>
+    </mapAttribute>
+    <mapAttribute key="Path">
+        <mapEntry key="Airflow" value=""/>
+        <mapEntry key="IN" value=""/>
+        <mapEntry key="OUT" value=""/>
+        <mapEntry key="PipelineDef" value="/org.example.pipelinedefinition/model/PipelineDefinition.ecore"/>
+    </mapAttribute>
+    <stringAttribute key="Source Metamodel" value="/org.example.pipelinedefinition/model/PipelineDefinition.ecore"/>
+    <stringAttribute key="Source Model" value="/org.example.pipelinedsl/examples/output.xmi"/>
+    <listAttribute key="Superimpose"/>
+    <stringAttribute key="Target Metamodel" value="/org.example.airflowpipeline/model/AirflowPipeline.ecore"/>
+    <stringAttribute key="Target Model" value="/org.example.pipeline.transformation/output/airflow.xmi"/>
+    <booleanAttribute key="org.eclipse.debug.core.ATTR_FORCE_SYSTEM_CONSOLE_ENCODING" value="false"/>
+</launchConfiguration>

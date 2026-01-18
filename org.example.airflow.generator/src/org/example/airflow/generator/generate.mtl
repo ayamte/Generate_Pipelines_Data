@@ -1,0 +1,45 @@
+[comment encoding = UTF-8 /]
+[module generate('http://www.example.org/airflowpipeline')]
+
+[template public generateDAG(dag : DAG)]
+[comment @main/]
+[file (dag.dagId + '.py', false, 'UTF-8')]
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+from datetime import datetime, timedelta
+
+# DAG: [dag.dagId/]
+# Description: [dag.description/]
+
+dag = DAG(
+    '[dag.dagId/]',
+    description='[dag.description/]',
+    schedule_interval='[dag.scheduleInterval/]',
+    start_date=datetime(2024, 1, 1),
+    catchup=False
+)
+
+[for (op : PythonOperator | dag.operators)]
+[generateOperator(op)/]
+
+[/for]
+
+# Task Dependencies
+[for (dep : TaskDependency | dag.dependencies)]
+[dep.upstreamTaskId/] >> [dep.downstreamTaskId/]
+[/for]
+[/file]
+[/template]
+
+[template public generateOperator(op : PythonOperator)]
+# Task: [op.taskId/]
+[op.taskId/] = PythonOperator(
+    task_id='[op.taskId/]',
+    python_callable='[op.pythonCallable/]',
+    op_kwargs=[op.parameters.replaceAll('true', 'True').replaceAll('false', 'False')/],
+    retries=[op.retry/],
+    execution_timeout=timedelta(seconds=[op.timeout/]),
+    dag=dag
+)
+
+[/template]
