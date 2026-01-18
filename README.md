@@ -161,14 +161,4 @@ Projet réalisé dans le cadre d'un cours de Model-Driven Engineering (MDE), dé
 - La génération de code M2T
 - L'utilisation d'EMF et Acceleo
 
-## 📝 Licence
 
-Ce projet est à usage académique.
-
-## 👤 Auteur
-
-Projet MDE - Générateur de Pipelines Airflow
-
----
-
-**⭐ Si ce projet vous a été utile, n'hésitez pas à le star !**
