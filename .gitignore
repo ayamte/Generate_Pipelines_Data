@@ -1,0 +1,58 @@
+# Eclipse
+.metadata/
+.settings/
+.project
+.classpath
+bin/
+target/
+*.class
+RemoteSystemsTempFiles/
+
+# EMF
+*.genmodel~
+*.ecore~
+*._trace
+*._xmi
+
+# Acceleo
+*.emtl
+*.mtlbin
+
+# Xtext
+*.xtendbin
+src-gen/
+xtend-gen/
+plugin.xml_gen
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Gradle
+.gradle/
+build/
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Temporary files
+*.tmp
+*.bak
+*.old
