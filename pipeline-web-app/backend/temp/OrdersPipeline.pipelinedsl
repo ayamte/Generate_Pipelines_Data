@@ -1,0 +1,31 @@
+pipeline OrdersPipeline {
+    description "Test pipeline"
+    schedule "daily"
+
+    source PostgreSQLSource {
+        host "localhost"
+        port 5432
+        database "mydb"
+        table "orders"
+        username "user"
+        password "pass"
+    }
+
+    transformations {
+        CleanTransform {
+            removeNulls true
+            trim true
+            deduplicate false
+        }
+    }
+
+    sink DataWarehouseSink {
+        host "localhost"
+        port 5432
+        database "analytics"
+        table "orders_clean"
+        username "user"
+        password "pass"
+    }
+
+}

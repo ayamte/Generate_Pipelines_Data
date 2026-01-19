@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.example.pipelinedefinition/src" modelPluginID="org.example.pipelinedefinition"
+    modelName="PipelineDefinition" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="17.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>PipelineDefinition.ecore</foreignModel>
+  <genPackages prefix="Pipelinedefinition" basePackage="org.example" disposableProviderFactory="true"
+      ecorePackage="PipelineDefinition.ecore#/">
+    <genClasses ecoreClass="PipelineDefinition.ecore#//PipelineDefinition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PipelineDefinition.ecore#//PipelineDefinition/pipelines"/>
+    </genClasses>
+    <genClasses ecoreClass="PipelineDefinition.ecore#//Pipeline">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//Pipeline/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//Pipeline/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//Pipeline/schedule"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PipelineDefinition.ecore#//Pipeline/source"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PipelineDefinition.ecore#//Pipeline/transformations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PipelineDefinition.ecore#//Pipeline/sink"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="PipelineDefinition.ecore#//DataSource"/>
+    <genClasses ecoreClass="PipelineDefinition.ecore#//PostgreSQLSource">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//PostgreSQLSource/host"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//PostgreSQLSource/port"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//PostgreSQLSource/database"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//PostgreSQLSource/table"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//PostgreSQLSource/username"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//PostgreSQLSource/password"/>
+    </genClasses>
+    <genClasses ecoreClass="PipelineDefinition.ecore#//MongoDBSource">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//MongoDBSource/host"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//MongoDBSource/port"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//MongoDBSource/database"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//MongoDBSource/collection"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//MongoDBSource/username"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//MongoDBSource/password"/>
+    </genClasses>
+    <genClasses ecoreClass="PipelineDefinition.ecore#//RestAPISource">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//RestAPISource/url"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//RestAPISource/method"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//RestAPISource/apiKey"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//RestAPISource/headers"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="PipelineDefinition.ecore#//Transformation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//Transformation/description"/>
+    </genClasses>
+    <genClasses ecoreClass="PipelineDefinition.ecore#//CleanTransform">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//CleanTransform/removeNulls"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//CleanTransform/trim"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//CleanTransform/deduplicate"/>
+    </genClasses>
+    <genClasses ecoreClass="PipelineDefinition.ecore#//FilterTransform">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//FilterTransform/condition"/>
+    </genClasses>
+    <genClasses ecoreClass="PipelineDefinition.ecore#//AggregateTransform">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//AggregateTransform/groupBy"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//AggregateTransform/aggregation"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="PipelineDefinition.ecore#//DataSink"/>
+    <genClasses ecoreClass="PipelineDefinition.ecore#//DataWarehouseSink">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//DataWarehouseSink/host"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//DataWarehouseSink/port"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//DataWarehouseSink/database"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//DataWarehouseSink/table"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//DataWarehouseSink/username"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//DataWarehouseSink/password"/>
+    </genClasses>
+    <genClasses ecoreClass="PipelineDefinition.ecore#//ElasticsearchSink">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//ElasticsearchSink/host"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//ElasticsearchSink/port"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//ElasticsearchSink/index"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//ElasticsearchSink/username"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//ElasticsearchSink/password"/>
+    </genClasses>
+    <genClasses ecoreClass="PipelineDefinition.ecore#//CSVSink">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//CSVSink/filePath"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//CSVSink/separator"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PipelineDefinition.ecore#//CSVSink/includeHeader"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

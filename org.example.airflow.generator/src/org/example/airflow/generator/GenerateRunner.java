@@ -12,6 +12,14 @@ public class GenerateRunner {
     
     public static void main(String[] args) {
         try {
+            if (args.length < 2) {
+                System.err.println("Usage: GenerateRunner <input.xmi> <output.py>");
+                System.exit(1);
+            }
+            
+            String inputXmiPath = args[0];
+            String outputPyPath = args[1];
+            
             // Enregistrer le package
             EPackage.Registry.INSTANCE.put(
                 AirflowpipelinePackage.eNS_URI,
@@ -24,18 +32,24 @@ public class GenerateRunner {
                 .getExtensionToFactoryMap()
                 .put("xmi", new XMIResourceFactoryImpl());
             
-            String modelPath = "C:/Users/User/eclipse-workspace-xtext-clean/org.example.pipelinedsl/examples/airflow-output.xmi";
             Resource resource = resourceSet.getResource(
-                URI.createFileURI(modelPath), true);
+                URI.createFileURI(new File(inputXmiPath).getAbsolutePath()), true);
+            
+            if (resource.getContents().isEmpty()) {
+                throw new Exception("Le fichier XMI est vide");
+            }
             
             DAG dag = (DAG) resource.getContents().get(0);
             
-            // Générer
-            File targetFolder = new File("C:/Users/User/eclipse-workspace-xtext-clean/org.example.airflow.generator/generated");
+            // Déterminer le dossier de sortie depuis le chemin du fichier de sortie
+            File outputFile = new File(outputPyPath);
+            File targetFolder = outputFile.getParentFile();
+            
             if (!targetFolder.exists()) {
                 targetFolder.mkdirs();
             }
             
+            // Générer
             java.util.List<Object> arguments = new java.util.ArrayList<Object>();
             Generate generator = new Generate(dag, targetFolder, arguments);
             generator.doGenerate(new org.eclipse.emf.common.util.BasicMonitor());
@@ -44,7 +58,9 @@ public class GenerateRunner {
             System.out.println("   Fichiers générés dans : " + targetFolder.getAbsolutePath());
             
         } catch (Exception e) {
+            System.err.println("❌ Erreur lors de la génération : " + e.getMessage());
             e.printStackTrace();
+            System.exit(1);
         }
     }
 }

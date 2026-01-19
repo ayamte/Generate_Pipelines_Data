@@ -335,4 +335,22 @@ public class Pipeline2AirflowTransformer {
         System.out.println("   Connexions : " + airflowDAG.getConnections().size());
         System.out.println("   Dépendances : " + airflowDAG.getDependencies().size());
     }
+    
+    /**
+     * Point d'entrée pour l'exécution en ligne de commande
+     */
+    public static void main(String[] args) {
+        if (args.length != 2) {
+            System.err.println("Usage: Pipeline2AirflowTransformer <input.xmi> <output.xmi>");
+            System.exit(1);
+        }
+        
+        try {
+            transformFile(args[0], args[1]);
+        } catch (Exception e) {
+            System.err.println("❌ Erreur lors de la transformation : " + e.getMessage());
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
 }

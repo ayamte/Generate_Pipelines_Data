@@ -306,4 +306,32 @@ public class DSL2EMFTransformer {
         
         return emfModel;
     }
+    
+    /**
+     * Point d'entrée pour exécution standalone
+     * Usage: java DSL2EMFTransformer input.pipelinedsl output.xmi
+     */
+    public static void main(String[] args) {
+        if (args.length < 2) {
+            System.err.println("Usage: DSL2EMFTransformer <input.pipelinedsl> <output.xmi>");
+            System.exit(1);
+        }
+        
+        try {
+            String dslPath = args[0];
+            String xmiPath = args[1];
+            
+            System.out.println("Transforming: " + dslPath + " -> " + xmiPath);
+            
+            org.example.pipelinedefinition.PipelineDefinition result = transformFile(dslPath, xmiPath);
+            
+            System.out.println("Transformation completed successfully!");
+            System.out.println("Pipelines in model: " + result.getPipelines().size());
+            
+        } catch (Exception e) {
+            System.err.println("Error during transformation: " + e.getMessage());
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
 }
