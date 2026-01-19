@@ -2,21 +2,27 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
 
+# Import generated ETL functions
+from OrdersPipeline_functions import *
+
 # DAG: OrdersPipeline
-# Description: Test pipeline
+# Description:  Test pipeline
+
 
 dag = DAG(
     'OrdersPipeline',
-    description='Test pipeline',
+    description=' Test pipeline
+',
     schedule_interval='daily',
     start_date=datetime(2024, 1, 1),
-    catchup=False
+    catchup=False,
+    tags=[generated], 'OrdersPipeline']
 )
 
 # Task: OrdersPipeline_extract
 OrdersPipeline_extract = PythonOperator(
     task_id='OrdersPipeline_extract',
-    python_callable='extract_postgres',
+    python_callable=extract_postgres,    
     op_kwargs={"table": "orders", "database": "mydb"},
     retries=3,
     execution_timeout=timedelta(seconds=300),
@@ -27,7 +33,7 @@ OrdersPipeline_extract = PythonOperator(
 # Task: OrdersPipeline_transform
 OrdersPipeline_transform = PythonOperator(
     task_id='OrdersPipeline_transform',
-    python_callable='transform_clean',
+    python_callable=transform_clean,    
     op_kwargs={"remove_nulls": True, "trim": True, "deduplicate": False},
     retries=3,
     execution_timeout=timedelta(seconds=600),
@@ -38,7 +44,7 @@ OrdersPipeline_transform = PythonOperator(
 # Task: OrdersPipeline_load
 OrdersPipeline_load = PythonOperator(
     task_id='OrdersPipeline_load',
-    python_callable='load_warehouse',
+    python_callable=load_warehouse,    
     op_kwargs={"table": "orders_clean", "database": "analytics"},
     retries=3,
     execution_timeout=timedelta(seconds=600),

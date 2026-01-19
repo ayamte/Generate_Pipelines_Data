@@ -1,12 +1,17 @@
 [comment encoding = UTF-8 /]
 [module generate('http://www.example.org/airflowpipeline')]
+[import org::example::airflow::generator::generateFunctions /]
 
 [template public generateDAG(dag : DAG)]
 [comment @main/]
+[generateFunctions(dag)/]    [comment Generate functions file first /]
 [file (dag.dagId + '.py', false, 'UTF-8')]
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
+
+# Import generated ETL functions
+from [dag.dagId/]_functions import *
 
 # DAG: [dag.dagId/]
 # Description: [dag.description/]
@@ -16,7 +21,8 @@ dag = DAG(
     description='[dag.description/]',
     schedule_interval='[dag.scheduleInterval/]',
     start_date=datetime(2024, 1, 1),
-    catchup=False
+    catchup=False,
+    tags=['['/]generated[']'/], '[dag.dagId/]'[']'/]
 )
 
 [for (op : PythonOperator | dag.operators)]
@@ -35,7 +41,7 @@ dag = DAG(
 # Task: [op.taskId/]
 [op.taskId/] = PythonOperator(
     task_id='[op.taskId/]',
-    python_callable='[op.pythonCallable/]',
+    python_callable=[op.pythonCallable/],    [comment No quotes - it's a function reference now /]
     op_kwargs=[op.parameters.replaceAll('true', 'True').replaceAll('false', 'False')/],
     retries=[op.retry/],
     execution_timeout=timedelta(seconds=[op.timeout/]),

@@ -1,5 +1,6 @@
 pipeline OrdersPipeline {
-    description "Test pipeline"
+    description " Test pipeline
+"
     schedule "daily"
 
     source PostgreSQLSource {

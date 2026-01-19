@@ -41,6 +41,9 @@ FOR %%i IN ("%ECLIPSE%\org.eclipse.acceleo.parser_*.jar") DO SET JAR_ACCELEO_PAR
 FOR %%i IN ("%ECLIPSE%\org.eclipse.acceleo.query_*.jar") DO SET JAR_ACCELEO_QUERY=%%i
 FOR %%i IN ("%ECLIPSE%\org.eclipse.core.filesystem_*.jar") DO SET JAR_CORE_FILESYSTEM=%%i
 FOR %%i IN ("%ECLIPSE%\org.eclipse.core.commands_*.jar") DO SET JAR_CORE_COMMANDS=%%i
+FOR %%i IN ("%ECLIPSE%\org.eclipse.osgi_*.jar") DO SET JAR_OSGI=%%i
+FOR %%i IN ("%ECLIPSE%\org.eclipse.osgi.util_*.jar") DO SET JAR_OSGI_UTIL=%%i
+FOR %%i IN ("%ECLIPSE%\org.osgi.service.prefs_*.jar") DO SET JAR_OSGI_PREFS=%%i
 
 REM Construire le classpath
 SET CP=org.example.airflow.generator\bin
@@ -80,6 +83,9 @@ SET CP=%CP%;%JAR_ACCELEO_PARSER%
 SET CP=%CP%;%JAR_ACCELEO_QUERY%
 SET CP=%CP%;%JAR_CORE_FILESYSTEM%
 SET CP=%CP%;%JAR_CORE_COMMANDS%
+SET CP=%CP%;%JAR_OSGI%
+SET CP=%CP%;%JAR_OSGI_UTIL%
+SET CP=%CP%;%JAR_OSGI_PREFS%
 
 java -cp "%CP%" org.example.airflow.generator.GenerateRunner %1 %2
 
