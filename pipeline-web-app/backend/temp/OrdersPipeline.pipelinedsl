@@ -1,6 +1,5 @@
 pipeline OrdersPipeline {
-    description " Test pipeline
-"
+    description "Test pipeline"
     schedule "daily"
 
     source PostgreSQLSource {
@@ -21,7 +20,7 @@ pipeline OrdersPipeline {
     }
 
     sink DataWarehouseSink {
-        host "localhost"
+        host "localhsot"
         port 5432
         database "analytics"
         table "orders_clean"

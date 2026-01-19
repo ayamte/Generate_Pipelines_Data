@@ -31,7 +31,12 @@ class JavaService {
             const pythonPath = path.join(this.tempDir, `${pipelineName}.py`);
             await this.runBatchScript('run-acceleo.bat', [airflowXmi, pythonPath]);
 
-            // 4. Lire le code Python généré
+            // 4. Post-process generated Python files to fix syntax issues
+            console.log('🔧 Step 4: Post-processing Python code');
+            const { fixGeneratedFiles } = require('../../scripts/fix-generated-code');
+            fixGeneratedFiles(this.tempDir);
+
+            // 5. Lire le code Python généré
             const pythonCode = await fs.readFile(pythonPath, 'utf8');
 
             console.log('✅ Pipeline execution completed successfully');

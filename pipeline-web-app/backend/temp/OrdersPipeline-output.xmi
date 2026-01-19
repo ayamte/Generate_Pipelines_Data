@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
 <pipelinedefinition:PipelineDefinition xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipelinedefinition="http://www.example.org/pipelinedefinition">
-  <pipelines name="OrdersPipeline" description=" Test pipeline&#xA;" schedule="daily">
+  <pipelines name="OrdersPipeline" description="Test pipeline" schedule="daily">
     <source xsi:type="pipelinedefinition:PostgreSQLSource" host="localhost" port="5432" database="mydb" table="orders" username="user" password="pass"/>
     <transformations xsi:type="pipelinedefinition:CleanTransform" removeNulls="true" trim="true"/>
-    <sink xsi:type="pipelinedefinition:DataWarehouseSink" host="localhost" port="5432" database="analytics" table="orders_clean" username="user" password="pass"/>
+    <sink xsi:type="pipelinedefinition:DataWarehouseSink" host="localhsot" port="5432" database="analytics" table="orders_clean" username="user" password="pass"/>
   </pipelines>
 </pipelinedefinition:PipelineDefinition>

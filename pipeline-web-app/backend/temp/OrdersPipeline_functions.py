@@ -29,11 +29,11 @@ def extract_postgres(**kwargs):
         password="pass"
     )
     
-    query = f"SELECT * FROM {params[table]}"
+    query = f"SELECT * FROM {params['table']}"
     df = pd.read_sql(query, conn)
     conn.close()
     
-    print(f"✅ Extracted {len(df)} rows from {params[table]}")
+    print(f"✅ Extracted {len(df)} rows from {params['table']}")
     return df.to_json(orient='records')
 
 
@@ -66,7 +66,7 @@ def transform_clean(ti, **kwargs):
     if params.get('trim', False):
         string_cols = df.select_dtypes(include=[object]).columns
         for col in string_cols:
-            df[{col}] = df[{col}].str.strip()
+            df[col] = df[col].str.strip()
         print(f"✂️  Trimmed whitespace from string columns")
     
     if params.get('deduplicate', False):
@@ -98,11 +98,11 @@ def load_warehouse(ti, **kwargs):
     
     engine = create_engine(
         f"postgresql://user:pass@"
-        f"localhost:5432/analytics"
+        f"localhsot:5432/analytics"
     )
     
-    df.to_sql(params[table], engine, if_exists='append', index=False)
-    print(f"✅ Loaded {len(df)} rows to {params[table]}")
+    df.to_sql(params['table'], engine, if_exists='append', index=False)
+    print(f"✅ Loaded {len(df)} rows to {params['table']}")
 
 
 

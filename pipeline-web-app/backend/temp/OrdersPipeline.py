@@ -6,17 +6,15 @@ from datetime import datetime, timedelta
 from OrdersPipeline_functions import *
 
 # DAG: OrdersPipeline
-# Description:  Test pipeline
-
+# Description: Test pipeline
 
 dag = DAG(
     'OrdersPipeline',
-    description=' Test pipeline
-',
+    description='Test pipeline',
     schedule_interval='daily',
     start_date=datetime(2024, 1, 1),
     catchup=False,
-    tags=[generated], 'OrdersPipeline']
+    tags=['generated', 'OrdersPipeline']
 )
 
 # Task: OrdersPipeline_extract
